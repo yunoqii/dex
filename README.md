@@ -697,8 +697,6 @@ dex/
 
 <div align="center">
 
-**Built with ❤️ for the Ethereum ecosystem**
-
 *[a minimal dex on Sepolia by yunoqii](https://github.com/yunoqii/dex)*
 
 </div>
