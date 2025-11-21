@@ -87,21 +87,37 @@ contract LiquidityPool is ISwap, AccessControl {
     }
 
     /// @notice Add liquidity to the pool (admin only)
+    /// @param _token The token address to add
+    /// @param _amount The amount of tokens to add
     function addLiquidity(
         address _token,
         uint256 _amount
     ) external onlyRole(Roles.ADMIN_ROLE) {
+        addLiquidityFrom(msg.sender, _token, _amount);
+    }
+
+    /// @notice Add liquidity to the pool from a specific address (admin only)
+    /// @param _from The address to transfer tokens from
+    /// @param _token The token address to add
+    /// @param _amount The amount of tokens to add
+    function addLiquidityFrom(
+        address _from,
+        address _token,
+        uint256 _amount
+    ) public onlyRole(Roles.ADMIN_ROLE) {
         if (_token != token0 && _token != token1) {
             revert InvalidTokenAddress(_token);
         }
 
-        if (IERC20(_token).balanceOf(msg.sender) < _amount) {
+        if (IERC20(_token).balanceOf(_from) < _amount) {
             revert InsufficientTokenBalance();
         }
 
-        require(
-            IERC20(_token).transferFrom(msg.sender, address(this), _amount)
-        );
+        if (IERC20(_token).allowance(_from, address(this)) < _amount) {
+            revert InsufficientAllowance();
+        }
+
+        require(IERC20(_token).transferFrom(_from, address(this), _amount));
 
         if (_token == token0) {
             reserveToken0 += _amount;
