@@ -40,3 +40,17 @@ body {
 .animate-slide-in {
     animation: slide-in 0.3s ease-out;
 }
+
+/* Hide Next.js error overlay and build watcher */
+nextjs-portal,
+#__next-build-watcher,
+#__next-error-overlay,
+[data-nextjs-dialog],
+[data-nextjs-dialog-overlay],
+iframe[src*="__nextjs"],
+div[data-nextjs-toast] {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}

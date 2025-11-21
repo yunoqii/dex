@@ -18,6 +18,7 @@
 ## 📋 Table of Contents
 
 - [Overview](#-overview)
+- [Screenshots](#-screenshots)
 - [Features](#-features)
 - [Tech Stack](#-tech-stack)
 - [Quick Start](#-quick-start)
@@ -27,13 +28,12 @@
 - [Deployment](#-deployment)
 - [Testing](#-testing)
 - [Project Structure](#-project-structure)
-- [Contributing](#-contributing)
 
 ---
 
 ## 🎯 Overview
 
-**Minimal DEX on Sepolia** is a production-ready decentralized exchange built on Ethereum's Sepolia testnet. It combines gas-efficient smart contract design with a modern, intuitive web interface to provide a complete DEX experience.
+**Minimal DEX on Sepolia** is a decentralized exchange built on Ethereum's Sepolia testnet. It combines gas-efficient smart contract design with a modern, intuitive web interface to provide a complete DEX experience.
 
 ### What Makes It Special?
 
@@ -41,6 +41,60 @@
 🔐 **Secure**: Role-based access control, multisignature wallet, and comprehensive input validation  
 🚀 **Modern**: Built with Next.js 16, TypeScript, and Tailwind CSS for a beautiful, responsive UI  
 🔧 **Flexible**: Upgradeable contracts, configurable fees, and EIP-712 signed swaps
+
+---
+
+## 📸 Screenshots
+
+### User Interface
+
+#### Non-Admin View
+![Non-Admin Interface](screenshots/non_admin_interface.png)
+*Standard user interface showing only public features: Pools, Swap, and wallet connection. Admin tabs are hidden for regular users.*
+
+#### Admin Role Interface
+![Admin Role Interface](screenshots/admin_role_interface.png)
+*Admin users see additional tabs: Add Liquidity, Create Pool, Fee Manager, Access Manager, and Vault Multisig. Role-based UI ensures only authorized users can access admin functions.*
+
+### Core Features
+
+#### Token Swapping
+![Swap Tokens](screenshots/swap_tokens.png)
+*Swap interface with pool selection, token input/output, slippage tolerance settings, and real-time price calculations. Users can swap tokens from any available liquidity pool.*
+
+#### Pool Management
+![Liquidity Pools](screenshots/liquidity_pools.png)
+*Pool list view displaying all available liquidity pools with token pairs, reserves, and current prices. Click on any pool to view detailed information.*
+
+#### Pool Details
+![Pool Details](screenshots/pool_details.png)
+*Detailed pool information modal showing token reserves, current price, and pool statistics. Users can view comprehensive pool data before making trading decisions.*
+
+#### New Pool Creation
+![New Pool Creation](screenshots/new_pool_creation.png)
+*Admin interface for creating new liquidity pools. Only users with DEFAULT_ADMIN_ROLE can access this feature. Factory pattern ensures gas-efficient pool deployment.*
+
+### Admin Features
+
+#### Fee Manager
+![Fee Manager](screenshots/fee_manager.png)
+*Fee management interface allowing admins to view and update swap fees. The FeeManager contract uses UUPS upgradeable pattern for future improvements.*
+
+#### Access Manager
+![Access Manager](screenshots/access_manager.png)
+*Role management system for granting and revoking permissions. Admins can manage ADMIN_ROLE, MULTISIG_ADMIN_ROLE, and ALLOWED_EIP712_SWAP_ROLE across the platform.*
+
+#### Vault Multisig - Overview
+![Vault Multisig Info](screenshots/vault_multisig_info.png)
+*Multisignature wallet dashboard showing quorum settings, current signers, pending transfers, and operations. Secure execution of critical operations requires multiple approvals.*
+
+#### Vault Multisig - Operations
+![Operations via Vault](screenshots/operations_via_vault.png)
+*Operation management interface for initiating, approving, and executing contract calls via multisig. Supports pool creation, fee updates, role management, and liquidity operations.*
+
+#### Vault Multisig - Editor
+![Vault Editor](screenshots/vault_editor.png)
+*Function selector and parameter input for creating multisig operations. Admins can select from predefined functions (createPool, setFee, grantRole, etc.) or enter custom hex data.*
 
 ---
 
@@ -629,31 +683,6 @@ dex/
 ├── next.config.ts              # Next.js configuration
 └── README.md                    # This file
 ```
-
----
-
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-### Development Guidelines
-
-- Follow Solidity style guide for smart contracts
-- Write tests for all new features
-- Update documentation as needed
-- Ensure all tests pass before submitting PR
-
----
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
