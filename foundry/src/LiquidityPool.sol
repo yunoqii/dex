@@ -20,6 +20,8 @@ contract LiquidityPool is ISwap, AccessControl {
     FeeManager public feeManager;
     EIP712Swap public eip712Swap;
 
+    bool private initialized;
+
     modifier onlyAdminOrEIP712Swap() {
         require(
             hasRole(Roles.ADMIN_ROLE, msg.sender) ||
@@ -43,15 +45,28 @@ contract LiquidityPool is ISwap, AccessControl {
     error InsufficientLiquidity();
     error InsufficientOutputAmount(uint256 expected, uint256 actual);
     error InsufficientAllowance();
+    error AlreadyInitialized();
 
-    constructor(
+    /// @notice Initialize the liquidity pool (replaces constructor for cloneability)
+    /// @param _token0 First token address
+    /// @param _token0Decimals Decimals for token0
+    /// @param _token1 Second token address
+    /// @param _token1Decimals Decimals for token1
+    /// @param _feeManager FeeManager contract address
+    /// @param _eip712Swap EIP712Swap contract address
+    /// @param _admin Admin address for the pool
+    function initialize(
         address _token0,
         uint256 _token0Decimals,
         address _token1,
         uint256 _token1Decimals,
         address _feeManager,
-        address _eip712Swap
-    ) {
+        address _eip712Swap,
+        address _admin
+    ) external {
+        if (initialized) revert AlreadyInitialized();
+        initialized = true;
+
         token0 = _token0;
         token0Decimals = _token0Decimals;
         token1 = _token1;
@@ -60,8 +75,8 @@ contract LiquidityPool is ISwap, AccessControl {
         eip712Swap = EIP712Swap(_eip712Swap);
 
         // Setup roles
-        _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
-        _grantRole(Roles.ADMIN_ROLE, msg.sender);
+        _grantRole(DEFAULT_ADMIN_ROLE, _admin);
+        _grantRole(Roles.ADMIN_ROLE, _admin);
 
         // Grant EIP712Swap contract permission to execute swaps
         _grantRole(Roles.ALLOWED_EIP712_SWAP_ROLE, _eip712Swap);

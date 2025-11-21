@@ -16,7 +16,7 @@ contract FeeManager is
 
     function initialize(uint256 _fee) external initializer {
         __AccessControl_init();
-        __UUPSUpgradeable_init();
+        // UUPSUpgradeable is stateless in v5.x and doesn't need initialization
         _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
         fee = _fee;
     }
